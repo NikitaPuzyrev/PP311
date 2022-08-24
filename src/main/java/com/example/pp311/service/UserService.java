@@ -1,33 +1,46 @@
 package com.example.pp311.service;
 
+import com.example.pp311.Dao.UserDao;
 import com.example.pp311.model.User;
-import com.example.pp311.repository.UserRepository;
+
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 @Service
-public class UserService {
-    private final UserRepository userRepository;
+public class UserService implements User_Service{
+    UserDao userDao;
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserService(UserDao userDao) {
+        this.userDao = userDao;
     }
 
-    public User findById(int id) {
-        return userRepository.findById(id).orElse(null);
+    @Override
+    public List<User> getAllUsers() {
+        return userDao.getAllUsers();
+    }
+
+    @Override
+    public User showUserById(int id) {
+        return userDao.showUserById(id);
+    }
+
+    @Override
+    @Transactional
+    public void save(User user) {
+        userDao.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void update(int id, User updatedUser) {
+        userDao.update(id, updatedUser);
 
     }
 
-    public List<User> findAll() {
-        return userRepository.findAll();
+    @Override
+    @Transactional
+    public void delete(int id) {
+        userDao.delete(id);
     }
-
-    public User saveUser(User user) {
-        return userRepository.save(user);
-    }
-
-    public void deleteById(int id) {
-        userRepository.deleteById(id);
-    }
-
 }

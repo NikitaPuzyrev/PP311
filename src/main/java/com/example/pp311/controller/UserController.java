@@ -2,6 +2,7 @@ package com.example.pp311.controller;
 
 import com.example.pp311.model.User;
 import com.example.pp311.service.UserService;
+import com.example.pp311.service.User_Service;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,16 +13,16 @@ import java.util.List;
 
 @Controller
 public class UserController {
-
+    private final User_Service userService;
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
-    private final UserService userService;
 
-    @GetMapping("/users")
+
+    @GetMapping("/")
     public String findAll(Model model) {
-        List<User> users = userService.findAll();
+        List<User> users = userService.getAllUsers();
         model.addAttribute("users", users);
         return "userlist";
     }
@@ -33,27 +34,28 @@ public class UserController {
 
     @PostMapping("userCreate")
     public String createUser(User user) {
-        userService.saveUser(user);
-        return "redirect:/users";
+        userService.save(user);
+        return "redirect:/";
     }
 
     @GetMapping("userDelete/{id}")
     public String deleteUser(@PathVariable("id") int id) {
-        userService.deleteById(id);
-        return "redirect:/users";
+        userService.delete(id);
+        return "redirect:/";
     }
 
     @GetMapping("userUpdate/{id}")
     public String updateUserForm(@PathVariable("id") int id, Model model) {
-        User user = userService.findById(id);
+        User user = userService.showUserById(id);
         model.addAttribute("user", user);
         return "/userUpdate";
     }
 
     @PostMapping("/userUpdate")
     public String updateUser(User user) {
-        userService.saveUser(user);
-        return "redirect:/users";
+        int id =user.getId();
+        userService.update(id, user);
+        return "redirect:/";
     }
 
 }
