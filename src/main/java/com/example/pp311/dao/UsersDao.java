@@ -1,10 +1,10 @@
-package com.example.pp311.service;
+package com.example.pp311.dao;
 
 import com.example.pp311.model.User;
 
 import java.util.List;
 
-public interface User_Service {
+public interface UsersDao {
     List<User> getAllUsers();
 
     User showUserById(int id);
@@ -15,3 +15,4 @@ public interface User_Service {
 
     void delete(int id);
 }
+

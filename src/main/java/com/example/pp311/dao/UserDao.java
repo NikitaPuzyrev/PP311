@@ -1,4 +1,4 @@
-package com.example.pp311.Dao;
+package com.example.pp311.dao;
 
 import com.example.pp311.model.User;
 import org.springframework.stereotype.Repository;
@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 @Repository
-public class UserDao implements User_Dao {
+public class UserDao implements UsersDao {
     @PersistenceContext
     private EntityManager entityManager;
     private List<User> users;
@@ -30,9 +30,6 @@ public class UserDao implements User_Dao {
 
     @Override
     public void update(int id, User updatedUser) {
-        User userToBeUpdated = showUserById(id);
-        userToBeUpdated.setAge(updatedUser.getAge());
-        userToBeUpdated.setName(updatedUser.getName());
         entityManager.merge(updatedUser);
     }
 
